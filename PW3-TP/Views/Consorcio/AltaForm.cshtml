@@ -1,0 +1,93 @@
+﻿@model Repositorios.Consorcio
+@{
+    ViewBag.Title = "AltaForm";
+
+    List<Repositorios.Provincia>
+    provincias = ViewBag.Provincias;
+}
+
+<div class="container">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../Listar">Mis Consorcios</a></li>
+        <li class="breadcrumb-item active">Nuevo Consorcio</li>
+    </ol>
+</div>
+
+<h2 class="mb-4">Nuevo Consorcio</h2>
+
+<form action="/Consorcio/Alta" method="post">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input name="Nombre" type="text" class="form-control" id="nombre" value="@Html.DisplayFor(model => model.Nombre)">
+                @Html.ValidationMessageFor(Model => Model.Nombre, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Provincia</label>
+                <select name="IdProvincia" class="form-control">
+                    <option value="@Html.DisplayFor(model => model.IdProvincia)">Seleccione Provincia</option>
+                    @foreach (Repositorios.Provincia p in provincias)
+                    {
+                        if (p.IdProvincia == Model.IdProvincia)
+                        {
+                            <option value="@p.IdProvincia" selected="selected">@p.Nombre</option>
+                        }
+                        else
+                        {
+                            <option value="@p.IdProvincia">@p.Nombre</option>
+                        }
+                    }
+                </select>
+                @Html.ValidationMessageFor(Model => Model.IdProvincia, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label for="ciudad">Ciudad</label>
+                <input name="Ciudad" type="text" class="form-control" id="ciudad" value="@Html.DisplayFor(model => model.Ciudad)">
+                @Html.ValidationMessageFor(Model => Model.Ciudad, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label for="calle">Calle</label>
+                <input type="text" name="Calle" class="form-control" id="calle" value="@Html.DisplayFor(model => model.Calle)" />
+                @Html.ValidationMessageFor(Model => Model.Calle, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Altura</label>
+                <input type="number" name="Altura" class="form-control" value="@Html.DisplayFor(model => model.Altura)" />
+                @Html.ValidationMessageFor(Model => Model.Altura, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Dia de vencimiento de expensas</label>
+                <input type="number" name="DiaVencimientoExpensas" class="form-control" value="@Html.DisplayFor(model => model.DiaVencimientoExpensas)" />
+                @Html.ValidationMessageFor(Model => Model.DiaVencimientoExpensas, null, new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <input id="tipo" type="hidden" name="tipoDeAction" value="unsave" />
+    <div class="d-flex justify-content-around">
+        <button id="save" class="btn btn-primary" type="submit">Guardar</button>
+        <button id="saveAndCreate" class="btn btn-primary" type="submit">Guardar y Crear Otro</button>
+        <button id="saveAndEdit" class="btn btn-primary" type="submit">Guardar y Editar</button>
+        <a class="btn btn-secondary" href="../../Consorcio/listar">Cancelar</a>
+    </div>
+</form>
+@section buttonTypes{
+    <script>
+        $(document).ready(function () {
+            $('#save').click(function () {
+                $('#tipo').val("save");
+            });
+            $('#saveAndCreate').click(function () {
+                $('#tipo').val("saveAndCreate");
+            });
+            $('#saveAndEdit').click(function () {
+                $('#tipo').val("saveAndEdit");
+            });
+        });
+    </script>
+}

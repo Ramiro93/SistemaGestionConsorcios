@@ -1,0 +1,69 @@
+﻿
+@model IEnumerable<Repositorios.Consorcio>
+
+@{
+    ViewBag.Title = "Listar";
+}
+
+<div class="mb-4 d-flex justify-content-between align-items-center">
+    <h2>Mis consorcios</h2>
+    <a class="btn btn-sm btn-primary" href="../Consorcio/AltaForm/">Agregar consorcio</a>
+</div>
+
+<table id="idTabla" class="table-hover">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Provincia</th>
+            <th>Ciudad</th>
+            <th>Unidades</th>
+            <th>Expensas</th>
+            <th>Gastos</th>
+            <th></th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                
+                <a class="underlineHover" type="" href="../Consorcio/EditarForm/@item.IdConsorcio">@Html.DisplayFor(modelItem => item.Nombre)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Provincia.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ciudad)
+            </td>
+            <td>
+                <a class="underlineHover" type="" href="../Unidad/ListarUnidades/@item.IdConsorcio">Ver Unidades</a>
+            </td>
+            <td>
+                @if (@item.Unidad.Count() > 0)
+                {
+                    <a class="underlineHover" type="" href="../Expensa/VerExpensasAsync/@item.IdConsorcio">Ver Expensas</a>
+                }else
+	            {
+                    <a class="underlineHover" disabled type="" href="#">Ver Expensas</a>
+	            }
+            </td>
+            <td>
+                <a class="underlineHover" type="" href="../Gasto/ListarGastos/@item.IdConsorcio">Ver Gastos</a>
+            </td>
+            <td>
+                <a class="underlineHover" type="" href="../Consorcio/EliminarForm/@item.IdConsorcio"><i class=" text-danger fa fa-trash" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#idTabla').DataTable();
+        });
+    </script>
+}

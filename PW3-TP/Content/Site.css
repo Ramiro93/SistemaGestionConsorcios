@@ -1,0 +1,15 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Castoro:ital@1&display=swap');
+
+main {
+    height: 80vh;
+    overflow-y: auto;
+}
+
+.logo {
+    font-family: 'Castoro', serif;
+    font-style: italic;
+}
+
+.pointer {
+    cursor: pointer;
+}

@@ -1,0 +1,152 @@
+﻿@model Repositorios.Gasto
+@{
+    ViewBag.Title = "AltaGastoForm";
+    List<Repositorios.TipoGasto> tipoGastos = ViewBag.TipoGasto;
+    Repositorios.Consorcio consorcio = ViewBag.Consorcio;
+}
+
+<div class="container">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../../Consorcio/Listar">Mis Consorcios</a></li>
+        <li class="breadcrumb-item"><a href="../../Consorcio/EditarForm/@Model.IdConsorcio">@consorcio.Nombre</a></li>
+        <li class="breadcrumb-item"><a href="../ListarGastos/@Model.IdConsorcio">Gastos</a></li>
+        <li class="breadcrumb-item active">Editar gasto</li>
+    </ol>
+</div>
+
+<h2 class="mb-4">Editar Gasto - @Model.Nombre</h2>
+
+@*<form action="/Gasto/EditarGasto" method="post" onsubmit="return validarPDF()" enctype="multipart/form-data">*@
+@using (Html.BeginForm("EditarGasto", "Gasto", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return validarPDF()" }))
+{
+    <input type="hidden" name=IdConsorcio value="@Model.IdConsorcio" />
+    <input type="hidden" name=IdUsuarioCreador value="@Model.IdUsuarioCreador" />
+    <input type="hidden" name="IdGasto" value="@Model.IdGasto" />
+
+    <div class="form-group">
+        <label>Nombre</label>
+        <input class="form-control" type="text" name="Consorcio" value="@Model.Nombre" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Tipo de Gasto</label>
+        <select name="IdTipoGasto" class="form-control">
+            <option value="0" selected="selected">Seleccione tipo de gasto</option>
+            @foreach (Repositorios.TipoGasto tp in tipoGastos)
+            {
+                if (tp.IdTipoGasto == Model.IdTipoGasto)
+                {
+                    <option value="@tp.IdTipoGasto" selected="selected">@tp.Nombre</option>
+                }
+                else
+                {
+                    <option value="@tp.IdTipoGasto">@tp.Nombre</option>
+                }
+            }
+        </select>
+        @Html.ValidationMessageFor(Model => Model.IdTipoGasto, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Nombre</label>
+        <input class="form-control" type="text" name="Nombre" value="@Model.Nombre" />
+        @Html.ValidationMessageFor(Model => Model.Nombre, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Descripcion</label>
+        <input class="form-control" type="text" name="Descripcion" value="@Model.Descripcion" />
+    </div>
+
+    <div class="form-group">
+        <label>Fecha</label>
+        @Html.TextBox("FechaGasto", Model.FechaGasto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+        @Html.ValidationMessageFor(Model => Model.FechaGasto, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Expensa</label>
+        <div class="row">
+            <div class="col-sm-6">
+                <label>Año:</label>
+                <select name="AnioExpensa" class="form-control">
+                    <option value="@Model.AnioExpensa" selected>@Model.AnioExpensa</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                </select>
+                @Html.ValidationMessageFor(Model => Model.AnioExpensa, null, new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-6">
+                <label>Mes:</label>
+                <select name="MesExpensa" class="form-control">
+                    <option value="@Model.MesExpensa" selected>@Model.MesExpensa</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+            @Html.ValidationMessageFor(Model => Model.MesExpensa, null, new { @class = "text-danger" })
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <label>Comprobante</label>
+        @if (!string.IsNullOrEmpty(Model.ArchivoComprobante))
+        {
+            <br />
+
+            <a class="underlineHover" type="" href="../DescargarComprobante/@Model.IdGasto">
+                Descargar comprobante de @Model.Nombre
+                <i class="text-success fa fa-print" data-toggle="tooltip" data-placement="top" title="Descargar"></i>
+            </a>
+        }
+        <input class="form-control-file" type="file" name="ArchivoComprobante" value="@Model.ArchivoComprobante" />
+        @Html.ValidationMessageFor(Model => Model.ArchivoComprobante, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Monto</label>
+        <input class="form-control" type="text" name="Monto" value="@Model.Monto" />
+        @Html.ValidationMessageFor(Model => Model.Monto, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="d-flex justify-content-around align-items-center p-4">
+        <button class="btn btn-primary" type="submit">Guardar</button>
+        <a class="btn btn-secondary" href="../../Gasto/ListarGastos/@Model.IdConsorcio">Cancelar</a>
+        <a class="btn btn-danger" href="../../Gasto/eliminar/@Model.IdGasto">Eliminar</a>
+    </div>
+}
+    @*</form>*@
+
+    @section scripts{
+        <script>
+            function validarPDF() {
+                const file = $('#file').val();
+                const ext = getExtension(file);
+                if (ext.toLowerCase() == 'pdf') {
+                    return true;
+                } else {
+                    alert("El comprobante es requerido y debe ser un PDF");
+                    return false;
+                }
+            }
+
+            function getExtension(filename) {
+                const parts = filename.split('.');
+                return parts[parts.length - 1];
+            }
+        </script>
+    }

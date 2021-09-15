@@ -1,0 +1,12 @@
+﻿@model Repositorios.Consorcio
+@{
+    ViewBag.Title = "Eliminar";
+}
+
+<h2  class="display-4 text-center">Esta seguro que desea eliminar el Consorcio @Html.DisplayFor(model => model.Nombre)?</h2>
+
+
+<div class="d-flex justify-content-around align-items-center p-4">
+    <a class="btn btn-secondary" href="../../Consorcio/listar">Cancelar</a>
+    <a class="btn btn-primary" href="../../Consorcio/Eliminar/@Html.DisplayFor(model => model.IdConsorcio)">Borrar</a>
+</div>

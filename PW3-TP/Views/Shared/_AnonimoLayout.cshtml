@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Consorcio</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+    <header class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between border-bottom">
+            @Html.ActionLink("Linea de 5", "Inicio", "Home", new { area = "" }, new { @class = "navbar-brand logo" })
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    @if (Session["idUser"] != null)
+                    {
+                        <li class="nav-item active">
+                            <a class="nav-link" href="Consorcio/listar">Mis Consorcios</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @HttpContext.Current.Session["userEmail"].ToString()
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/Cuenta/Logout">Logout</a>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+        @if (Session["MsjError"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @HttpContext.Current.Session["MsjError"].ToString()
+            </div>
+        }
+        @if (Session["MsjSuccess"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @HttpContext.Current.Session["MsjSuccess"].ToString()
+            </div>
+        }
+    </header>
+
+    <main class="container p-4">
+        @RenderBody()
+    </main>
+
+    @Html.Partial("_pvFooter")
+
+    <script src="~/Scripts/jquery-3.5.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    @RenderSection("scripts", false)
+    @RenderSection("buttonTypes", false)
+</body>
+</html>

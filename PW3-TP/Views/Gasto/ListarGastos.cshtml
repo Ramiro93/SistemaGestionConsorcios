@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Repositorios.Gasto>
+
+@{
+    ViewBag.Title = "ListarGastos";
+    Repositorios.Consorcio consorcio = ViewBag.consorcio;
+}
+<div class="container">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../../Consorcio/Listar">Mis Consorcios</a></li>
+        <li class="breadcrumb-item"><a href="../../Consorcio/EditarForm/@consorcio.IdConsorcio">@consorcio.Nombre</a></li>
+        <li class="breadcrumb-item active">Gastos</li>
+    </ol>
+</div>
+
+<div class="mb-4 d-flex justify-content-between align-items-center">
+    <h2>Gastos</h2>
+    <a class="btn btn-sm btn-primary" href="../AltaGastoForm/@consorcio.IdConsorcio">Nuevo Gasto</a>
+</div>
+
+<table id="idTabla" class="table-hover">
+    <thead>
+        <tr>
+            <th>Año</th>
+            <th>Mes</th>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Fecha</th>
+            <th>Monto</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnioExpensa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MesExpensa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoGasto.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaGasto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Monto)
+            </td>
+            <td>
+                <a class="underlineHover" type="" href="../DescargarComprobante/@item.IdGasto"><i class="text-success fa fa-print" data-toggle="tooltip" data-placement="top" title="Imprimir"></i></a>
+            </td>
+            <td>
+                <a class="underlineHover" type="" href="../EditarGastoForm/@item.IdGasto"><i class=" text-primary fa fa-eye" data-toggle="tooltip" data-placement="top" title="Ver Gasto"></i></a>
+            </td>
+            <td>
+                <a class="underlineHover" type="" href="../EliminarForm/@item.IdGasto"><i class=" text-danger fa fa-trash" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+            </td>
+        </tr>
+
+        }
+</table>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#idTabla').DataTable();
+        });
+    </script>
+}

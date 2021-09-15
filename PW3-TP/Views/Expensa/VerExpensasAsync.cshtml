@@ -1,0 +1,71 @@
+﻿@model IEnumerable<DTO.ExpensaDTO>
+@{
+    ViewBag.Title = "VerExpensas";
+    var unidadesPorConsorcio = ViewBag.UnidadesPorConsorcio;
+    var gastoTotalMesActual = ViewBag.GastoTotalMesActual;
+    var mesActual = ViewBag.MesActual;
+    var consorcio = ViewBag.Consorcio;
+    var ExpensasPorUnidad = gastoTotalMesActual / unidadesPorConsorcio;
+
+}
+
+<div class="container">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../../Consorcio/Listar">Mis Consorcios</a></li>
+        <li class="breadcrumb-item"><a href="../../Consorcio/EditarForm/@consorcio.IdConsorcio">@consorcio.Nombre</a></li>
+        <li class="breadcrumb-item active">Expensas</li>
+    </ol>
+</div>
+
+    <h2>Expensas por Consorcio</h2>
+<div>
+    <label>Gasto Total mes Actual @mesActual (Hasta el momento): </label>
+    <input type="type" name="gastoTotal" value="" disabled placeholder="$@gastoTotalMesActual" />
+</div>
+<div>
+    <label>Unidades: </label>
+    <input type="type" name="unidadesPorConsorcio" value="" disabled placeholder="@unidadesPorConsorcio" />
+</div>
+<div>
+    <label>Expensas por unidad: </label>
+    <input type="type" name="" value="" disabled placeholder="$@ExpensasPorUnidad" />
+</div>
+
+<table id="idTabla" class="table-hover">
+    <thead>
+        <tr>
+            <th>Año</th>
+            <th>Mes</th>
+            <th>Gasto Total</th>
+            <th>Expensas x Unidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AnioExpensa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MesExpensa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GastoTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpensaPorUnidad)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#idTabla').DataTable();
+        });
+    </script>
+}

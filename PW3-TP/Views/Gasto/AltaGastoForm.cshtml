@@ -1,0 +1,152 @@
+﻿@model Repositorios.Gasto
+@{
+    ViewBag.Title = "AltaGastoForm";
+    List<Repositorios.TipoGasto> tipoGastos = ViewBag.TipoGasto;
+    Repositorios.Consorcio consorcio = ViewBag.consorcio;
+
+    List<SelectListItem> meses = new List<SelectListItem>();
+    meses.Add(new SelectListItem() { Text = "Enero", Value = "1"});
+    meses.Add(new SelectListItem() { Text = "Febrero", Value = "2" });
+    meses.Add(new SelectListItem() { Text = "Marzo", Value = "3" });
+    meses.Add(new SelectListItem() { Text = "Abril", Value = "4" });
+    meses.Add(new SelectListItem() { Text = "Mayo", Value = "5" });
+    meses.Add(new SelectListItem() { Text = "Junio", Value = "6" });
+    meses.Add(new SelectListItem() { Text = "Julio", Value = "7" });
+    meses.Add(new SelectListItem() { Text = "Agosto", Value = "8" });
+    meses.Add(new SelectListItem() { Text = "Septiembre", Value = "9" });
+    meses.Add(new SelectListItem() { Text = "Octubre", Value = "10" });
+    meses.Add(new SelectListItem() { Text = "Noviembre", Value = "11" });
+    meses.Add(new SelectListItem() { Text = "Diciembre", Value = "12" });
+
+
+    List<SelectListItem> anios = new List<SelectListItem>();
+    anios.Add(new SelectListItem() { Text = "2017", Value = "2017" });
+    anios.Add(new SelectListItem() { Text = "2018", Value = "2018" });
+    anios.Add(new SelectListItem() { Text = "2019", Value = "2019" });
+    anios.Add(new SelectListItem() { Text = "2020", Value = "2020" });
+
+
+}
+
+<div class="container">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../../Consorcio/Listar">Mis Consorcios</a></li>
+        <li class="breadcrumb-item"><a href="../../Consorcio/EditarForm/@Model.Consorcio.Nombre">@Model.Consorcio.Nombre</a></li>
+        <li class="breadcrumb-item"><a href="../ListarGastos/@Model.IdConsorcio">Gastos</a></li>
+        <li class="breadcrumb-item active">Cargar nuevo gasto</li>
+    </ol>
+</div>
+
+<h2 class="mb-4">Nuevo Gasto</h2>
+
+@*<form action="/Gasto/AltaGasto" method="post" onsubmit="return validarPDF()">*@
+    @using (Html.BeginForm("AltaGasto", "Gasto", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit= "return validarPDF()" }))
+    {
+        <input type="hidden" name=IdConsorcio value="@Model.IdConsorcio" />
+        <input type="hidden" name=IdUsuarioCreador value="@Model.IdUsuarioCreador" />
+
+        <div class="form-group">
+            <label>Consorcio</label>
+            <input class="form-control" type="text" name="Consorcio" value="@Model.Consorcio.Nombre" readonly />
+        </div>
+
+        <div class="form-group">
+            <label>Tipo de Gasto</label>
+            <select name="IdTipoGasto" class="form-control">
+                <option value="0" selected="selected">Seleccione tipo de gasto</option>
+                @foreach (Repositorios.TipoGasto tp in tipoGastos)
+                {
+                    if (tp.IdTipoGasto == Model.IdTipoGasto)
+                    {
+                        <option value="@tp.IdTipoGasto" selected="selected">@tp.Nombre</option>
+                    }
+                    else
+                    {
+                        <option value="@tp.IdTipoGasto">@tp.Nombre</option>
+                    }
+                }
+            </select>
+            @Html.ValidationMessageFor(Model => Model.IdTipoGasto, null, new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label>Nombre</label>
+            <input class="form-control" type="text" name="Nombre" value="@Html.DisplayFor(model => model.Nombre)" />
+            @Html.ValidationMessageFor(Model => Model.Nombre, null, new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label>Descripcion</label>
+            <input class="form-control" type="text" name="Descripcion" value="@Html.DisplayFor(model => model.Descripcion)" />
+        </div>
+
+        <div class="form-group">
+            <label>Fecha</label>
+            @Html.TextBox("FechaGasto", Model.FechaGasto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+            @Html.ValidationMessageFor(Model => Model.FechaGasto, null, new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label>Expensa</label>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Año:</label>
+                    @Html.DropDownList("AnioExpensa", anios, "Seleccione un año",  new { @class = "form-control", @id = "AnioExpensa" })
+                    @Html.ValidationMessageFor(Model => Model.AnioExpensa, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-4">
+                    <label>Mes:</label>
+                    @Html.DropDownList("MesExpensa", meses, "Seleccione un mes",  new { @class = "form-control", @id = "MesExpensa" } )
+                    @Html.ValidationMessageFor(Model => Model.MesExpensa, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-4">
+                    <label>Comprobante</label>
+                    <input class="form-control-file" type="file" id="file" name="ArchivoComprobante" value="@Html.DisplayFor(model => model.ArchivoComprobante)" />
+                    @Html.ValidationMessageFor(Model => Model.ArchivoComprobante, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Monto</label>
+            <input class="form-control" type="number" name="Monto" value="@Html.DisplayFor(model => model.Monto)" />
+            @Html.ValidationMessageFor(Model => Model.Monto, null, new { @class = "text-danger" })
+        </div>
+
+        <input id="tipo" type="hidden" name="tipoDeAction" value="unsave" />
+        <div class="d-flex justify-content-around align-items-center p-4">
+            <button id="save" class="btn btn-primary" type="submit">Guardar</button>
+            <button id="saveAndCreate" class="btn btn-primary" type="submit">Guardar y Crear Otro</button>
+            <a class="btn btn-secondary" href="../../Gasto/ListarGastos/@Model.IdConsorcio">Cancelar</a>
+        </div>
+    }
+@*</form>*@
+
+@section buttonTypes{
+    <script>
+        function validarPDF() {
+            const file = $('#file').val();
+            const ext = getExtension(file);
+            if (ext.toLowerCase() == 'pdf') {
+                return true;
+            } else {
+                alert("El comprobante es requerido y debe ser un PDF");
+                return false;
+            }
+        }
+
+        function getExtension(filename) {
+            const parts = filename.split('.');
+            return parts[parts.length - 1];
+        }
+
+        $(document).ready(function () {
+            $('#save').click(function () {
+                $('#tipo').val("save");
+            });
+            $('#saveAndCreate').click(function () {
+                $('#tipo').val("saveAndCreate");
+            });
+        });
+    </script>
+}

@@ -1,0 +1,26 @@
+﻿@model Repositorios.Usuario
+@{
+    ViewBag.Title = "Ingresar";
+}
+
+<h2 class="mb-4">Ingresar</h2>
+
+<form action="/Cuenta/Login" method="post">
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input name="Email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Ingrese el email">
+        @Html.ValidationMessageFor(Model => Model.Email, null, new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input name="Password" type="password" class="form-control" id="password" placeholder="Password">
+        @Html.ValidationMessageFor(Model => Model.Password, null, new { @class = "text-danger" })
+    </div>
+    <div class="d-flex flex-column align-items-center mt-4">
+        <a class="mb-3" href="/Home/CrearCuentaForm">Registrarse</a>
+        <button type="submit" class="btn btn-primary">Ingresar</button>
+    </div>
+</form>
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

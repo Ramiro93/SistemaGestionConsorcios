@@ -1,0 +1,61 @@
+﻿@model Repositorios.Unidad
+@{
+    ViewBag.Title = "EditarUnidadForm";
+    Repositorios.Consorcio consorcio = ViewBag.consorcio;
+}
+
+<div class="container">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../../Consorcio/Listar">Mis Consorcios</a></li>
+        <li class="breadcrumb-item"><a href="../../Consorcio/EditarForm/@consorcio.IdConsorcio">@consorcio.Nombre</a></li>
+        <li class="breadcrumb-item"><a href="../ListarUnidades/@consorcio.IdConsorcio">Unidades</a></li>
+        <li class="breadcrumb-item active">Editar Unidad</li>
+    </ol>
+</div>
+
+<h2 class="mb-4">Editar Unidad</h2>
+
+<form action="/Unidad/Editar" method="post">
+    <input type="hidden" name="IdUnidad" value="@Html.DisplayFor(model => model.IdUnidad)" />
+    <input type="hidden" name="IdConsorcio" value="@Html.DisplayFor(model => model.IdConsorcio)" />
+
+    <div class="form-group">
+        <label>Consorcio</label>
+        <input class="form-control" type="text" name="Consorcio" value="@consorcio.Nombre" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Nombre</label>
+        <input class="form-control" type="text" name="Nombre" value="@Html.DisplayFor(model => model.Nombre)" />
+        @Html.ValidationMessageFor(Model => Model.Nombre, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Nombre Propietario</label>
+        <input class="form-control" type="text" name="NombrePropietario" value="@Html.DisplayFor(model => model.NombrePropietario)" />
+        @Html.ValidationMessageFor(Model => Model.NombrePropietario, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Apellido Propietario</label>
+        <input class="form-control" type="text" name="ApellidoPropietario" value="@Html.DisplayFor(model => model.ApellidoPropietario)" />
+        @Html.ValidationMessageFor(Model => Model.ApellidoPropietario, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Email Propietario</label>
+        <input class="form-control" type="text" name="EmailPropietario" value="@Html.DisplayFor(model => model.EmailPropietario)" />
+        @Html.ValidationMessageFor(Model => Model.EmailPropietario, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Superficie (m2)</label>
+        <input class="form-control" type="number" name="Superficie" value="@Html.DisplayFor(model => model.Superficie)" />
+        @Html.ValidationMessageFor(Model => Model.Superficie, null, new { @class = "text-danger" }) 
+    </div>
+
+    <div class="d-flex justify-content-around">
+        <button class="btn btn-primary" type="submit">Guardar</button>
+        <a class="btn btn-secondary" href="../../Unidad/ListarUnidades/@Html.DisplayFor(model => model.IdConsorcio)">Cancelar</a>
+    </div>
+</form>

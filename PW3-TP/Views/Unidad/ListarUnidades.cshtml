@@ -1,0 +1,67 @@
+﻿
+@model IEnumerable<Repositorios.Unidad>
+
+@{
+    ViewBag.Title = "ListarUnidades";
+    Repositorios.Consorcio consorcio = ViewBag.consorcio;
+}
+
+<div class="container">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../../Consorcio/Listar">Mis Consorcios</a></li>
+        <li class="breadcrumb-item"><a href="../../Consorcio/EditarForm/@consorcio.IdConsorcio">@consorcio.Nombre</a></li>
+        <li class="breadcrumb-item active">Unidades</li>
+    </ol>
+</div>
+
+<div class="mb-4 d-flex justify-content-between align-items-center">
+    <h2>Unidades</h2>
+    <a class="btn btn-sm btn-primary" href="../AltaUnidadForm/@consorcio.IdConsorcio">Nueva Unidad</a>
+</div>
+
+<table id="idTabla">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApellidoPropietario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombrePropietario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailPropietario)
+            </td>
+            <td>
+                <a class="underlineHover" type="" href="../EditarUnidadForm/@item.IdUnidad"><i class=" text-primary fa fa-pen" data-toggle="tooltip" data-placement="top" title="Editar Unidad"></i></a>
+            </td>
+            <td>
+                <a class="underlineHover" type="" href="../EliminarForm/@item.IdUnidad"><i class=" text-danger fa fa-trash" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#idTabla').DataTable();
+        });
+    </script>
+}

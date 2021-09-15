@@ -1,0 +1,12 @@
+﻿@model Repositorios.Unidad
+@{
+    ViewBag.Title = "Eliminar";
+}
+
+<h2  class="display-4 text-center">Esta seguro que desea eliminar la unidad @Html.DisplayFor(model => model.Nombre)?</h2>
+
+
+<div class="d-flex justify-content-around align-items-center p-4">
+    <a class="btn btn-secondary" href="../../Unidad/ListarUnidades/@Html.DisplayFor(model => model.IdConsorcio)">Cancelar</a>
+    <a class="btn btn-primary" href="../../Unidad/Eliminar/@Html.DisplayFor(model => model.IdUnidad)">Borrar</a>
+</div>
